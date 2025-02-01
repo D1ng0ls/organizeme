@@ -1,3 +1,7 @@
+if (localStorage.getItem("alert") === null) {
+    localStorage.setItem("alert", "true");
+}
+
 function buscarClimaPorGeolocalizacao() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
@@ -5,7 +9,11 @@ function buscarClimaPorGeolocalizacao() {
             const longitude = position.coords.longitude;
             obterClima(latitude, longitude);
         }, function(error) {
-            alert("Geolocalização falhou!");
+            if(localStorage.getItem("alert") === "true"){
+                alert("Geolocalização falhou! Cidade padrão: São Paulo");
+                localStorage.setItem("alert", "false");
+                
+            }
             obterClima(null, null, "são paulo");
         });
     } else {
